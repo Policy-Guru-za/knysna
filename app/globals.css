@@ -943,8 +943,16 @@ button {
 
 /* ─── iPad Pro 12.9" and below (≤1024px) ─── */
 @media (max-width: 1024px) {
+  .hero {
+    min-height: 92svh;
+    align-items: center;
+    padding-top: 6.5rem;
+    padding-bottom: 4.5rem;
+  }
+
   .hero-content {
     gap: 3rem;
+    align-items: center;
   }
 
   .tide-grid {
@@ -975,12 +983,15 @@ button {
   }
 
   .hero {
-    padding: 4rem 2rem;
+    min-height: auto;
+    padding: 5.5rem 2rem 3.5rem;
+    align-items: flex-start;
   }
 
   .hero-content {
     grid-template-columns: 1fr 0.85fr;
     gap: 2rem;
+    align-items: start;
   }
 
   .hero-temp-value {
@@ -1047,6 +1058,7 @@ button {
   .hero-content {
     grid-template-columns: 1fr;
     gap: 1.75rem;
+    padding-top: 4.75rem;
   }
 
   .hero h1 {
@@ -1057,6 +1069,7 @@ button {
   .hero-tag {
     margin-bottom: 1rem;
     font-size: 0.65rem;
+    transform: translateY(-0.75rem);
   }
 
   .hero-sub {
@@ -1270,6 +1283,14 @@ button {
 
 /* ─── iPhone Pro Max / large phones (≤430px) ─── */
 @media (max-width: 430px) {
+  .hero-content {
+    padding-top: 4.25rem;
+  }
+
+  .hero-tag {
+    transform: translateY(-1rem);
+  }
+
   .hero h1 {
     font-size: clamp(2.2rem, 10vw, 3rem);
   }
@@ -1465,6 +1486,7 @@ button {
 
   .hero-tag {
     font-size: 0.58rem;
+    transform: translateY(-0.85rem);
   }
 
   .hero-sub {
