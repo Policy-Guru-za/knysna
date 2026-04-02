@@ -51,7 +51,7 @@ function eventLabelY(event: TideEvent, lookup: ReturnType<typeof buildPointLooku
 }
 
 function markerColor(marker: TideMarker) {
-  return marker.kind.startsWith("sun") ? "var(--accent-warm)" : "var(--accent-cool)";
+  return marker.kind.startsWith("sun") ? "#D4944C" : "#2B7A8C";
 }
 
 export function TideChart({ day, derived }: TideChartProps) {
@@ -85,39 +85,24 @@ export function TideChart({ day, derived }: TideChartProps) {
   });
 
   return (
-    <div className="tide-wave-panel rounded-[2rem] border border-white/10 p-4 sm:p-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[color:var(--text-soft)]">
-            {day.displayDate}
-          </p>
-          <h3 className="mt-3 font-[family:var(--font-display)] text-3xl leading-none text-[color:var(--text-strong)] sm:text-4xl">
-            A custom tide curve for one lagoon day.
-          </h3>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <span className="tide-chip">{derived.phase.replace("-", " ")}</span>
-          <span className="tide-chip">
-            next {derived.nextTurn.kind} {derived.nextTurn.timeLabel}
-          </span>
-        </div>
-      </div>
+    <div className="tide-chart-card">
+      <p className="tide-chart-title">{day.displayDate} — Tide curve</p>
 
       <svg
+        className="tide-svg"
         viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
-        className="mt-6 w-full overflow-visible"
         role="img"
         aria-label={`Tide curve for ${day.displayDate}`}
       >
         <defs>
-          <linearGradient id="tide-fill-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(103, 194, 192, 0.58)" />
-            <stop offset="100%" stopColor="rgba(103, 194, 192, 0.06)" />
+          <linearGradient id="tideFill" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(43,122,140,0.5)" />
+            <stop offset="100%" stopColor="rgba(43,122,140,0.05)" />
           </linearGradient>
-          <linearGradient id="tide-stroke-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="tideStroke" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#9fddd8" />
             <stop offset="45%" stopColor="#f0e3c8" />
-            <stop offset="100%" stopColor="#f0a66f" />
+            <stop offset="100%" stopColor="#D4944C" />
           </linearGradient>
         </defs>
 
@@ -134,9 +119,10 @@ export function TideChart({ day, derived }: TideChartProps) {
             <text
               x={18}
               y={item.y + 4}
-              fill="var(--text-soft)"
+              fill="rgba(255,255,255,0.4)"
               fontSize="12"
               letterSpacing="0.14em"
+              fontFamily="Inter, sans-serif"
             >
               {item.label}
             </text>
@@ -156,9 +142,10 @@ export function TideChart({ day, derived }: TideChartProps) {
               x={item.x}
               y={VIEWBOX_HEIGHT - 18}
               textAnchor="middle"
-              fill="var(--text-soft)"
+              fill="rgba(255,255,255,0.4)"
               fontSize="12"
               letterSpacing="0.16em"
+              fontFamily="Inter, sans-serif"
             >
               {item.label}
             </text>
@@ -167,13 +154,14 @@ export function TideChart({ day, derived }: TideChartProps) {
 
         {day.markers.map((marker) => {
           const x = lookup.xForMinute(marker.minutes);
-          const label = marker.kind === "sunrise"
-            ? "SR"
-            : marker.kind === "sunset"
-              ? "SS"
-              : marker.kind === "moonrise"
-                ? "MR"
-                : "MS";
+          const label =
+            marker.kind === "sunrise"
+              ? "SR"
+              : marker.kind === "sunset"
+                ? "SS"
+                : marker.kind === "moonrise"
+                  ? "MR"
+                  : "MS";
 
           return (
             <g key={`${marker.kind}-${marker.timeLabel}`}>
@@ -193,6 +181,7 @@ export function TideChart({ day, derived }: TideChartProps) {
                 fill={markerColor(marker)}
                 fontSize="11"
                 letterSpacing="0.18em"
+                fontFamily="Inter, sans-serif"
               >
                 {label}
               </text>
@@ -202,7 +191,7 @@ export function TideChart({ day, derived }: TideChartProps) {
 
         <path
           d={buildAreaPath(chartPoints)}
-          fill="url(#tide-fill-gradient)"
+          fill="url(#tideFill)"
           opacity="0.9"
         />
         <path
@@ -216,11 +205,10 @@ export function TideChart({ day, derived }: TideChartProps) {
         <path
           d={buildLinePath(chartPoints)}
           fill="none"
-          stroke="url(#tide-stroke-gradient)"
+          stroke="url(#tideStroke)"
           strokeWidth="4"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="tide-wave-stroke"
         />
 
         {[...day.highs, ...day.lows].map((event) => {
@@ -234,17 +222,18 @@ export function TideChart({ day, derived }: TideChartProps) {
                 cx={x}
                 cy={y}
                 r="6"
-                fill="var(--text-strong)"
-                stroke="rgba(14,38,39,0.9)"
+                fill="white"
+                stroke="#1B3A3F"
                 strokeWidth="2"
               />
               <text
                 x={x}
                 y={textY}
                 textAnchor="middle"
-                fill="var(--text-strong)"
+                fill="white"
                 fontSize="12"
                 letterSpacing="0.14em"
+                fontFamily="Inter, sans-serif"
               >
                 {event.kind.toUpperCase()} {event.timeLabel} {event.heightM.toFixed(2)}m
               </text>
@@ -257,7 +246,7 @@ export function TideChart({ day, derived }: TideChartProps) {
           y1={PADDING_TOP}
           x2={currentX}
           y2={VIEWBOX_HEIGHT - PADDING_BOTTOM}
-          stroke="rgba(240, 227, 200, 0.92)"
+          stroke="rgba(255,255,255,0.5)"
           strokeWidth="2"
           strokeDasharray="6 8"
         />
@@ -265,8 +254,8 @@ export function TideChart({ day, derived }: TideChartProps) {
           cx={currentX}
           cy={currentY}
           r="7"
-          fill="var(--accent-warm)"
-          stroke="rgba(14,38,39,0.95)"
+          fill="#D4944C"
+          stroke="#1B3A3F"
           strokeWidth="3"
         />
       </svg>
