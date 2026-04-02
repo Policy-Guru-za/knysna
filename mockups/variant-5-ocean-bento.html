@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knysna Weather — Variant 5: Ocean Bento</title>
+  <meta name="description" content="Live weather for Knysna, South Africa. Bento-grid ocean-inspired design.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0C1117;
+      --card: #131920;
+      --card-hover: #1A222B;
+      --border: rgba(255,255,255,0.06);
+      --text-1: #ECE8E1;
+      --text-2: #94978E;
+      --text-3: #5A5D58;
+      --ocean: #38B2AC;
+      --ocean-dim: rgba(56,178,172,0.1);
+      --peach: #F4A261;
+      --peach-dim: rgba(244,162,97,0.1);
+      --lavender: #8B7EC7;
+      --rose: #E07A8E;
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+      --font-accent: 'Lora', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --r: 1.25rem;
+      --r-lg: 1.75rem;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-1);
+      -webkit-font-smoothing: antialiased;
+      padding: 1.5rem;
+    }
+    ::selection { background: var(--ocean); color: var(--bg); }
+
+    /* AURORA BG */
+    .aurora {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      overflow: hidden;
+    }
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.08;
+    }
+    .aurora-1 { width: 700px; height: 700px; top: -250px; left: -150px; background: var(--ocean); animation: float1 25s ease-in-out infinite; }
+    .aurora-2 { width: 600px; height: 600px; top: 40%; right: -200px; background: var(--peach); animation: float2 30s ease-in-out infinite; }
+    .aurora-3 { width: 500px; height: 500px; bottom: -150px; left: 30%; background: var(--lavender); animation: float1 35s ease-in-out infinite reverse; }
+    @keyframes float1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(40px, -30px) scale(1.05); } }
+    @keyframes float2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-30px, 40px) scale(1.08); } }
+
+    .page { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+
+    /* NAV */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 0 1.5rem;
+    }
+    .nav-left {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--ocean), var(--lavender));
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 0.85rem; color: white;
+    }
+    .nav-logo-text {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+    .nav-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--text-1); }
+    .nav-pill {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: var(--ocean-dim);
+      border: 1px solid rgba(56,178,172,0.15);
+      border-radius: 9999px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.68rem; font-weight: 600; color: var(--ocean);
+    }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ocean); animation: blink 2s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* BENTO GRID */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+    .b-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s, background 0.3s;
+      overflow: hidden;
+    }
+    .b-card:hover {
+      border-color: rgba(255,255,255,0.1);
+      background: var(--card-hover);
+    }
+
+    /* SPANS */
+    .col-12 { grid-column: span 12; }
+    .col-8 { grid-column: span 8; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .col-3 { grid-column: span 3; }
+    .col-2 { grid-column: span 2; }
+
+    /* LABEL SYSTEM */
+    .b-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .b-title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-top: 0.2rem;
+    }
+    .b-value {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 0.35rem;
+    }
+    .b-big-value {
+      font-family: var(--font-heading);
+      font-size: 4.5rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .b-note {
+      font-size: 0.82rem;
+      color: var(--text-2);
+      margin-top: 0.2rem;
+      line-height: 1.5;
+    }
+    .b-desc {
+      font-size: 0.95rem;
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-top: 0.5rem;
+    }
+
+    /* HERO CARD — BIG TEMP */
+    .hero-card {
+      padding: 2.5rem;
+      position: relative;
+      background: linear-gradient(135deg, #131920 0%, #1a2530 100%);
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      top: -160px; right: -100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,178,172,0.12), transparent 60%);
+    }
+    .hero-card > * { position: relative; z-index: 1; }
+    .hero-card .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .hero-card .hero-eyebrow-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--ocean);
+    }
+    .hero-temp-row {
+      display: flex; align-items: baseline; gap: 1rem; margin-top: 0.75rem;
+    }
+    .hero-temp {
+      font-family: var(--font-heading);
+      font-size: clamp(4rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--text-1), var(--peach));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-condition { font-size: 1.1rem; color: var(--text-2); }
+
+    .hero-sub {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-sub-item {}
+    .hero-sub-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-3); }
+    .hero-sub-value { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; margin-top: 0.15rem; }
+
+    /* ACCENT CARD */
+    .accent-ocean { border-left: 3px solid var(--ocean); }
+    .accent-peach { border-left: 3px solid var(--peach); }
+    .accent-lavender { border-left: 3px solid var(--lavender); }
+    .accent-rose { border-left: 3px solid var(--rose); }
+
+    /* PILL CHIPS */
+    .chip {
+      display: inline-flex; align-items: center;
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 0.35rem 0.7rem;
+      border-radius: 9999px;
+      border: 1px solid;
+    }
+    .chip-ocean { color: var(--ocean); background: var(--ocean-dim); border-color: rgba(56,178,172,0.15); }
+    .chip-peach { color: var(--peach); background: var(--peach-dim); border-color: rgba(244,162,97,0.15); }
+
+    /* HOURLY SCROLL */
+    .hourly-scroll {
+      display: flex; gap: 0.6rem;
+      overflow-x: auto; scrollbar-width: none;
+      margin-top: 1rem;
+    }
+    .hourly-scroll::-webkit-scrollbar { display: none; }
+    .h-card {
+      flex: 0 0 6.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 1rem;
+      padding: 0.85rem;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .h-card:hover { background: rgba(255,255,255,0.05); }
+    .h-time { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; color: var(--text-3); }
+    .h-temp { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-top: 0.2rem; }
+    .h-desc { font-size: 0.65rem; color: var(--text-2); margin-top: 0.15rem; }
+    .h-bar-wrap { height: 36px; display: flex; align-items: flex-end; justify-content: center; margin-top: 0.4rem; }
+    .h-bar { width: 1.25rem; border-radius: 0.5rem; background: linear-gradient(180deg, var(--peach), var(--ocean)); }
+    .h-rain { font-size: 0.6rem; color: var(--ocean); font-weight: 500; margin-top: 0.25rem; }
+
+    /* TIDE MINI CHART */
+    .tide-chart-area { margin-top: 1rem; }
+
+    /* FORECAST ROWS */
+    .fc-row {
+      display: grid;
+      grid-template-columns: 85px 1fr 70px;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.7rem 0;
+    }
+    .fc-row + .fc-row { border-top: 1px solid rgba(255,255,255,0.04); }
+    .fc-day { font-size: 0.82rem; font-weight: 500; }
+    .fc-sub { font-size: 0.6rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; }
+    .fc-bar-w { height: 5px; background: rgba(255,255,255,0.04); border-radius: 3px; position: relative; }
+    .fc-bar { position: absolute; top: 0; height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--ocean), var(--peach)); }
+    .fc-range { font-size: 0.82rem; font-weight: 500; text-align: right; }
+    .fc-rain { font-size: 0.62rem; color: var(--ocean); text-align: right; }
+
+    /* LANDMARK MINI */
+    .lm-name { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600; }
+    .lm-desc { font-size: 0.78rem; color: var(--text-2); margin-top: 0.2rem; line-height: 1.5; }
+    .lm-tag {
+      display: inline-block; margin-top: 0.4rem;
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--peach);
+    }
+
+    /* QUOTE CARD */
+    .quote-card {
+      background: linear-gradient(135deg, rgba(56,178,172,0.05), rgba(139,126,199,0.05));
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .quote {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      color: var(--text-2);
+      text-align: center;
+      max-width: 500px;
+    }
+    .quote span { color: var(--text-1); }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 1rem;
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+
+    @media (max-width: 1024px) {
+      .col-8 { grid-column: span 12; }
+      .col-6 { grid-column: span 12; }
+      .col-4 { grid-column: span 12; }
+      .col-3 { grid-column: span 6; }
+      .col-2 { grid-column: span 6; }
+    }
+    @media (max-width: 640px) {
+      body { padding: 0.75rem; }
+      .bento { gap: 0.75rem; }
+      .col-3, .col-2 { grid-column: span 12; }
+      .hero-sub { flex-wrap: wrap; gap: 1rem; }
+      .nav-right .nav-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="aurora-blob aurora-1"></div>
+  <div class="aurora-blob aurora-2"></div>
+  <div class="aurora-blob aurora-3"></div>
+</div>
+
+<div class="page">
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="nav-logo-icon">K</div>
+      <span class="nav-logo-text">Knysna Weather</span>
+    </div>
+    <div class="nav-right">
+      <a class="nav-link" href="#hourly">Hourly</a>
+      <a class="nav-link" href="#tides">Tides</a>
+      <a class="nav-link" href="#forecast">Forecast</a>
+      <a class="nav-link" href="#landmarks">Explore</a>
+      <span class="nav-pill"><span class="nav-dot"></span>Live data</span>
+    </div>
+  </nav>
+
+  <!-- BENTO GRID -->
+  <div class="bento">
+
+    <!-- ROW 1: Hero + Side cards -->
+    <div class="b-card hero-card col-8">
+      <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Knysna, South Africa · Thursday, 02 April · 15:41</div>
+      <div class="hero-temp-row">
+        <span class="hero-temp">24.3°</span>
+        <span class="hero-condition">Cloudy</span>
+      </div>
+      <p class="b-desc" style="max-width: 520px;">
+        Mild afternoon with light cloud over the Knysna Lagoon. Temperature is 1.8° warmer than this morning. Gentle showers possible after sunset.
+      </p>
+      <div class="hero-sub">
+        <div class="hero-sub-item"><p class="hero-sub-label">Feels like</p><p class="hero-sub-value">25.8°</p></div>
+        <div class="hero-sub-item"><p class="hero-sub-label">Day range</p><p class="hero-sub-value">17° – 25°</p></div>
+        <div class="hero-sub-item"><p class="hero-sub-label">Comfort</p><p class="hero-sub-value">86/100</p></div>
+        <div class="hero-sub-item"><p class="hero-sub-label">Sunrise</p><p class="hero-sub-value">06:40</p></div>
+        <div class="hero-sub-item"><p class="hero-sub-label">Sunset</p><p class="hero-sub-value">18:21</p></div>
+      </div>
+    </div>
+
+    <div class="b-card col-4 accent-ocean">
+      <p class="b-label">Best time outdoors</p>
+      <p class="b-value" style="color: var(--ocean);">08:00 – 09:00</p>
+      <p class="b-note">Low rain risk and calm southerly wind make early morning ideal for outdoor activities near the lagoon.</p>
+      <div style="margin-top: 0.75rem; display: flex; gap: 0.4rem;">
+        <span class="chip chip-ocean">Morning</span>
+        <span class="chip chip-peach">Low wind</span>
+      </div>
+    </div>
+
+    <!-- ROW 2: Condition cards -->
+    <div class="b-card col-2">
+      <p class="b-label">Humidity</p>
+      <p class="b-value">65%</p>
+      <p class="b-note">Comfortable</p>
+    </div>
+    <div class="b-card col-2">
+      <p class="b-label">Wind</p>
+      <p class="b-value">5 km/h</p>
+      <p class="b-note">South</p>
+    </div>
+    <div class="b-card col-2">
+      <p class="b-label">Rain chance</p>
+      <p class="b-value">10%</p>
+      <p class="b-note">Showers later</p>
+    </div>
+    <div class="b-card col-2">
+      <p class="b-label">UV index</p>
+      <p class="b-value">0</p>
+      <p class="b-note">Low — overcast</p>
+    </div>
+    <div class="b-card col-2">
+      <p class="b-label">Pressure</p>
+      <p class="b-value" style="font-size: 1.2rem;">1016 mb</p>
+      <p class="b-note">Stable</p>
+    </div>
+    <div class="b-card col-2">
+      <p class="b-label">Visibility</p>
+      <p class="b-value" style="font-size: 1.2rem;">10+ km</p>
+      <p class="b-note">Clear</p>
+    </div>
+
+    <!-- ROW 3: Hourly -->
+    <div class="b-card col-12" id="hourly">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <p class="b-label">Next 12 hours</p>
+          <p class="b-title">Hourly forecast</p>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-2);">Rain expected from 18:00</p>
+      </div>
+      <div class="hourly-scroll">
+        <div class="h-card"><p class="h-time">15</p><p class="h-temp">24.4°</p><p class="h-desc">Cloudy</p><div class="h-bar-wrap"><div class="h-bar" style="height:34px"></div></div><p class="h-rain">10%</p></div>
+        <div class="h-card"><p class="h-time">16</p><p class="h-temp">24.3°</p><p class="h-desc">Cloudy</p><div class="h-bar-wrap"><div class="h-bar" style="height:33px"></div></div><p class="h-rain">10%</p></div>
+        <div class="h-card"><p class="h-time">17</p><p class="h-temp">23.3°</p><p class="h-desc">Cloudy</p><div class="h-bar-wrap"><div class="h-bar" style="height:28px"></div></div><p class="h-rain">10%</p></div>
+        <div class="h-card"><p class="h-time">18</p><p class="h-temp">22.2°</p><p class="h-desc">Rain</p><div class="h-bar-wrap"><div class="h-bar" style="height:22px"></div></div><p class="h-rain">35%</p></div>
+        <div class="h-card"><p class="h-time">19</p><p class="h-temp">20.8°</p><p class="h-desc">Rain</p><div class="h-bar-wrap"><div class="h-bar" style="height:16px"></div></div><p class="h-rain">40%</p></div>
+        <div class="h-card"><p class="h-time">20</p><p class="h-temp">19.5°</p><p class="h-desc">Cloudy</p><div class="h-bar-wrap"><div class="h-bar" style="height:12px"></div></div><p class="h-rain">25%</p></div>
+        <div class="h-card"><p class="h-time">21</p><p class="h-temp">18.6°</p><p class="h-desc">P. cloudy</p><div class="h-bar-wrap"><div class="h-bar" style="height:9px"></div></div><p class="h-rain">15%</p></div>
+        <div class="h-card"><p class="h-time">22</p><p class="h-temp">17.8°</p><p class="h-desc">Clear</p><div class="h-bar-wrap"><div class="h-bar" style="height:6px"></div></div><p class="h-rain">5%</p></div>
+        <div class="h-card"><p class="h-time">23</p><p class="h-temp">17.2°</p><p class="h-desc">Clear</p><div class="h-bar-wrap"><div class="h-bar" style="height:4px"></div></div><p class="h-rain">5%</p></div>
+        <div class="h-card"><p class="h-time">00</p><p class="h-temp">16.5°</p><p class="h-desc">Clear</p><div class="h-bar-wrap"><div class="h-bar" style="height:3px"></div></div><p class="h-rain">0%</p></div>
+        <div class="h-card"><p class="h-time">01</p><p class="h-temp">16.0°</p><p class="h-desc">Clear</p><div class="h-bar-wrap"><div class="h-bar" style="height:2px"></div></div><p class="h-rain">0%</p></div>
+        <div class="h-card"><p class="h-time">02</p><p class="h-temp">15.5°</p><p class="h-desc">Clear</p><div class="h-bar-wrap"><div class="h-bar" style="height:1px"></div></div><p class="h-rain">0%</p></div>
+      </div>
+    </div>
+
+    <!-- ROW 4: Tides + Forecast -->
+    <div class="b-card col-6" id="tides">
+      <p class="b-label">Knysna Lagoon tides</p>
+      <p class="b-title">Today's tidal rhythm</p>
+      <div class="tide-chart-area">
+        <svg viewBox="0 0 500 150" style="width: 100%;">
+          <defs>
+            <linearGradient id="tf5" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(56,178,172,0.3)"/><stop offset="100%" stop-color="rgba(56,178,172,0.01)"/></linearGradient>
+            <linearGradient id="ts5" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--ocean)"/><stop offset="50%" stop-color="var(--text-1)"/><stop offset="100%" stop-color="var(--peach)"/></linearGradient>
+          </defs>
+          <line x1="25" y1="20" x2="480" y2="20" stroke="rgba(255,255,255,0.04)" stroke-dasharray="3 6"/>
+          <line x1="25" y1="55" x2="480" y2="55" stroke="rgba(255,255,255,0.04)" stroke-dasharray="3 6"/>
+          <line x1="25" y1="90" x2="480" y2="90" stroke="rgba(255,255,255,0.04)" stroke-dasharray="3 6"/>
+          <line x1="25" y1="125" x2="480" y2="125" stroke="rgba(255,255,255,0.04)" stroke-dasharray="3 6"/>
+          <path d="M25,130 C55,130 75,18 110,18 C145,18 165,122 215,122 C265,122 285,24 330,24 C375,24 400,100 480,115 L480,135 L25,135Z" fill="url(#tf5)"/>
+          <path d="M25,130 C55,130 75,18 110,18 C145,18 165,122 215,122 C265,122 285,24 330,24 C375,24 400,100 480,115" fill="none" stroke="url(#ts5)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="110" cy="18" r="4" fill="var(--text-1)" stroke="var(--bg)" stroke-width="2"/>
+          <text x="110" y="10" fill="var(--text-2)" font-size="7.5" text-anchor="middle" font-family="Plus Jakarta Sans">HIGH 04:12</text>
+          <circle cx="215" cy="122" r="4" fill="var(--text-1)" stroke="var(--bg)" stroke-width="2"/>
+          <text x="215" y="138" fill="var(--text-3)" font-size="7.5" text-anchor="middle" font-family="Plus Jakarta Sans">LOW 10:13</text>
+          <circle cx="330" cy="24" r="4" fill="var(--peach)" stroke="var(--bg)" stroke-width="2"/>
+          <text x="330" y="14" fill="var(--peach)" font-size="7.5" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="600">HIGH 16:29</text>
+          <line x1="320" y1="18" x2="320" y2="130" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-top: 0.75rem;">
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem; padding: 0.6rem;">
+          <p class="b-label">Height</p>
+          <p style="font-weight: 700; margin-top: 0.15rem;">1.84m</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem; padding: 0.6rem;">
+          <p class="b-label">Range</p>
+          <p style="font-weight: 700; margin-top: 0.15rem;">1.78m</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem; padding: 0.6rem;">
+          <p class="b-label">Next high</p>
+          <p style="font-weight: 700; margin-top: 0.15rem;">16:29</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="b-card col-6" id="forecast">
+      <p class="b-label">10-day outlook</p>
+      <p class="b-title">Extended forecast</p>
+      <div style="margin-top: 0.75rem;">
+        <div class="fc-row"><div><p class="fc-day">Thursday</p><p class="fc-sub">Today</p></div><div><div class="fc-bar-w"><div class="fc-bar" style="left:28%;width:50%"></div></div></div><div><p class="fc-range">17° / 25°</p><p class="fc-rain">10%</p></div></div>
+        <div class="fc-row"><div><p class="fc-day">Friday</p><p class="fc-sub">Fri</p></div><div><div class="fc-bar-w"><div class="fc-bar" style="left:26%;width:55%"></div></div></div><div><p class="fc-range">16° / 26°</p><p class="fc-rain">5%</p></div></div>
+        <div class="fc-row"><div><p class="fc-day">Saturday</p><p class="fc-sub">Sat</p></div><div><div class="fc-bar-w"><div class="fc-bar" style="left:30%;width:45%"></div></div></div><div><p class="fc-range">14° / 21°</p><p class="fc-rain">15%</p></div></div>
+        <div class="fc-row"><div><p class="fc-day">Sunday</p><p class="fc-sub">Sun</p></div><div><div class="fc-bar-w"><div class="fc-bar" style="left:22%;width:48%"></div></div></div><div><p class="fc-range">14° / 19°</p><p class="fc-rain">35%</p></div></div>
+        <div class="fc-row"><div><p class="fc-day">Monday</p><p class="fc-sub">Mon</p></div><div><div class="fc-bar-w"><div class="fc-bar" style="left:18%;width:46%"></div></div></div><div><p class="fc-range">12° / 18°</p><p class="fc-rain">35%</p></div></div>
+        <div class="fc-row"><div><p class="fc-day">Tuesday</p><p class="fc-sub">Tue</p></div><div><div class="fc-bar-w"><div class="fc-bar" style="left:20%;width:52%"></div></div></div><div><p class="fc-range">13° / 20°</p><p class="fc-rain">20%</p></div></div>
+      </div>
+    </div>
+
+    <!-- ROW 5: Landmarks + Quote -->
+    <div class="b-card col-3 accent-peach" id="landmarks"><p class="lm-name">Knysna Waterfront</p><p class="lm-desc">Lagoon-edge dining with late-afternoon golden light.</p><p class="lm-tag">Dining & Views</p></div>
+    <div class="b-card col-3 accent-ocean"><p class="lm-name">Thesen Island</p><p class="lm-desc">Marina walks, best when morning mist lifts from the lagoon.</p><p class="lm-tag">Morning Walk</p></div>
+    <div class="b-card col-3 accent-lavender"><p class="lm-name">The Heads</p><p class="lm-desc">Iconic sandstone cliffs with panoramic ocean views and wind.</p><p class="lm-tag">Must See</p></div>
+    <div class="b-card col-3 accent-rose"><p class="lm-name">Leisure Isle</p><p class="lm-desc">Calm lagoon swimming, protected from swell. Family-friendly.</p><p class="lm-tag">Swimming</p></div>
+
+    <!-- ROW 6: Quote + Brenton -->
+    <div class="b-card quote-card col-8">
+      <p class="quote">"The lagoon is never the same twice — <span>every hour brings different light, wind, and water.</span>"</p>
+    </div>
+    <div class="b-card col-4 accent-peach">
+      <p class="lm-name">Brenton-on-Sea</p>
+      <p class="lm-desc">Atlantic-facing beach with wide horizons and year-round sunset viewing. The quieter side of Knysna's coastline.</p>
+      <p class="lm-tag">Sunset Beach</p>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    Knysna Weather · Google Weather API & SA Tide Tables · Refreshed every 15 min
+  </footer>
+</div>
+
+</body>
+</html>
