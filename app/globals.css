@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+:root {
+  --page-background:
+    radial-gradient(circle at top, rgba(242, 178, 111, 0.25), transparent 30%),
+    linear-gradient(180deg, #15363a 0%, #226264 40%, #1f4a48 100%);
+  --surface-panel: rgba(14, 38, 39, 0.64);
+  --surface-strong: rgba(11, 28, 29, 0.76);
+  --text-strong: #f4e3c8;
+  --text-muted: #ccd1c2;
+  --text-soft: #a0b2ab;
+  --accent-warm: #f0a66f;
+  --accent-cool: #63c2c0;
+}
+
+@theme inline {
+  --color-background: var(--surface-panel);
+  --color-foreground: var(--text-strong);
+  --font-sans: var(--font-instrument-sans);
+  --font-display: var(--font-newsreader);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #10292b;
+  color: var(--text-strong);
+  font-family: var(--font-instrument-sans), sans-serif;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent-cool) 70%, white 30%);
+  color: #0d2324;
+}
+
+.page-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: clip;
+  background: var(--page-background);
+}
+
+.page-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(transparent 0%, rgba(255, 255, 255, 0.06) 100%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.18) 0.7px, transparent 0.8px);
+  background-size: 100% 100%, 20px 20px;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.page-orb {
+  position: absolute;
+  width: 36rem;
+  height: 36rem;
+  border-radius: 9999px;
+  filter: blur(72px);
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+.page-orb-left {
+  top: -10rem;
+  left: -6rem;
+  background: color-mix(in srgb, var(--accent-warm) 74%, transparent);
+}
+
+.page-orb-right {
+  top: 12rem;
+  right: -9rem;
+  background: color-mix(in srgb, var(--accent-cool) 72%, transparent);
+}
+
+.hero-panel,
+.hero-note {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--surface-strong) 86%, transparent);
+  backdrop-filter: blur(20px);
+}
+
+.hero-panel {
+  border-radius: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  box-shadow: 0 28px 80px rgba(5, 16, 17, 0.18);
+}
+
+.hero-note {
+  border-radius: 1.6rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.hero-note-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.hero-note-value {
+  margin-top: 0.85rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.hero-note-copy {
+  margin-top: 0.55rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.hourly-scroll {
+  scrollbar-width: none;
+}
+
+.hourly-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hour-card {
+  transform: translateY(0);
+  transition:
+    transform 300ms cubic-bezier(0.19, 1, 0.22, 1),
+    background-color 300ms ease;
+}
+
+.hour-card:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.map-marker {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  padding: 0.45rem 0.8rem;
+  font-family: var(--font-instrument-sans), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f1e5d0;
+  background: rgba(10, 30, 31, 0.88);
+  box-shadow: 0 12px 28px rgba(5, 16, 17, 0.3);
+}
+
+.tide-wave-panel,
+.tide-stat-card {
+  background:
+    radial-gradient(circle at top, rgba(99, 194, 192, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(13, 36, 39, 0.88) 0%, rgba(10, 29, 31, 0.84) 100%);
+  box-shadow: 0 28px 80px rgba(5, 16, 17, 0.16);
+}
+
+.tide-wave-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.tide-wave-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, transparent 15%, rgba(255, 255, 255, 0.05) 32%, transparent 48%),
+    radial-gradient(circle at 18% 0%, rgba(240, 166, 111, 0.12), transparent 38%);
+  pointer-events: none;
+}
+
+.tide-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tide-wave-stroke {
+  filter: drop-shadow(0 10px 18px rgba(99, 194, 192, 0.2));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hour-card {
+    transition: none;
+  }
+
+  .hour-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .page-orb {
+    width: 20rem;
+    height: 20rem;
+    filter: blur(60px);
+  }
+}
