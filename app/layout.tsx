@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -18,6 +18,13 @@ export const metadata: Metadata = {
   title: "Knysna Weather",
   description:
     "Live weather, hourly forecasts, and lagoon tides for Knysna, South Africa.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#1B3A3F",
 };
 
 export default function RootLayout({

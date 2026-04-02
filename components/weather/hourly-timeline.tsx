@@ -41,7 +41,7 @@ function WeatherIcon({ conditionType, isDaytime }: { conditionType: string; isDa
     const isPartly = ct.includes("PARTLY") || ct.includes("MOSTLY") || ct.includes("SCATTERED");
     return (
       <svg viewBox="0 0 36 36" fill="none">
-        {isPartly && <circle cx="18" cy="16" r="5" fill="var(--sunset-gold)" opacity="0.3" />}
+        {isPartly && <circle cx="18" cy="16" r="5" fill="var(--accent-blue)" opacity="0.3" />}
         <path
           d="M10 22c0-3.5 2.8-6 6.2-6 .3-3 2.8-5.3 5.8-5.3 3.2 0 5.8 2.6 5.8 5.8 0 .2 0 .3 0 .5 1.8.7 3.2 2.5 3.2 4.5 0 2.8-2.2 5-5 5H12c-2.8 0-5-2.2-5-5 0-1.5.7-2.9 1.8-3.8z"
           fill="var(--warm-grey)"
@@ -56,7 +56,7 @@ function WeatherIcon({ conditionType, isDaytime }: { conditionType: string; isDa
       <svg viewBox="0 0 36 36" fill="none">
         <path
           d="M20 10c-4.4 0-8 3.6-8 8s3.6 8 8 8c.6 0 1.1-.1 1.6-.2-2.4-1.3-4-3.8-4-6.8s1.6-5.4 4-6.8c-.5-.1-1-.2-1.6-.2z"
-          fill="var(--sunset-gold)"
+          fill="var(--accent-blue)"
           opacity="0.6"
         />
       </svg>
@@ -65,8 +65,8 @@ function WeatherIcon({ conditionType, isDaytime }: { conditionType: string; isDa
 
   return (
     <svg viewBox="0 0 36 36" fill="none">
-      <circle cx="18" cy="18" r="6" fill="var(--sunset-gold)" opacity="0.6" />
-      <g stroke="var(--sunset-gold)" strokeWidth="1.5" strokeLinecap="round" opacity="0.4">
+      <circle cx="18" cy="18" r="6" fill="var(--accent-blue)" opacity="0.6" />
+      <g stroke="var(--accent-blue)" strokeWidth="1.5" strokeLinecap="round" opacity="0.4">
         <line x1="18" y1="6" x2="18" y2="9" />
         <line x1="18" y1="27" x2="18" y2="30" />
         <line x1="6" y1="18" x2="9" y2="18" />

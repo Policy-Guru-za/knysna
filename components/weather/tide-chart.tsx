@@ -51,7 +51,7 @@ function eventLabelY(event: TideEvent, lookup: ReturnType<typeof buildPointLooku
 }
 
 function markerColor(marker: TideMarker) {
-  return marker.kind.startsWith("sun") ? "#D4944C" : "#2B7A8C";
+  return marker.kind.startsWith("sun") ? "#4F8EF7" : "#2B7A8C";
 }
 
 export function TideChart({ day, derived }: TideChartProps) {
@@ -101,8 +101,8 @@ export function TideChart({ day, derived }: TideChartProps) {
           </linearGradient>
           <linearGradient id="tideStroke" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#9fddd8" />
-            <stop offset="45%" stopColor="#f0e3c8" />
-            <stop offset="100%" stopColor="#D4944C" />
+            <stop offset="45%" stopColor="#c8e0f0" />
+            <stop offset="100%" stopColor="#4F8EF7" />
           </linearGradient>
         </defs>
 
@@ -254,7 +254,7 @@ export function TideChart({ day, derived }: TideChartProps) {
           cx={currentX}
           cy={currentY}
           r="7"
-          fill="#D4944C"
+          fill="#4F8EF7"
           stroke="#1B3A3F"
           strokeWidth="3"
         />
