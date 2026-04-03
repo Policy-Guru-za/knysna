@@ -1335,7 +1335,7 @@ button {
   }
 
   .scroll-cta {
-    display: none;
+    display: none !important;
   }
 
   .conditions-strip {
