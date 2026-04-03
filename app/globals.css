@@ -1392,7 +1392,7 @@ button {
 
   .hero-tag {
     margin-bottom: 0.7rem;
-    transform: translateY(-4.1rem);
+    transform: translateY(-4.65rem);
   }
 
   .hero h1 {
@@ -1613,7 +1613,7 @@ button {
   .hero-tag {
     font-size: 0.58rem;
     margin-bottom: 0.6rem;
-    transform: translateY(-3.55rem);
+    transform: translateY(-4rem);
   }
 
   .hero-sub {
