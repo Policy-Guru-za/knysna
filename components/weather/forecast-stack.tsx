@@ -12,7 +12,7 @@ export function ForecastStack({ daily10, timeZone }: ForecastStackProps) {
   if (!visibleDays.length) {
     return (
       <section className="section">
-        <p className="section-label">10-day outlook</p>
+        <p className="section-label">5-day outlook</p>
         <p className="section-desc">
           Daily forecast data is temporarily unavailable.
         </p>
@@ -26,7 +26,7 @@ export function ForecastStack({ daily10, timeZone }: ForecastStackProps) {
 
   return (
     <section id="forecast" className="section">
-      <p className="section-label">10-day outlook</p>
+      <p className="section-label">5-day outlook</p>
       <h2 className="section-title">What&apos;s ahead for Knysna</h2>
       <p className="section-desc">
         Temperature ranges, rainfall probability, and conditions for the days

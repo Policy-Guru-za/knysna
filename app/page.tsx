@@ -74,7 +74,7 @@ export default async function Home() {
           <a href="#conditions">Conditions</a>
           <a href="#hourly">Hourly</a>
           <a href="#tides">Tides</a>
-          <a href="#forecast">10-Day</a>
+          <a href="#forecast">5-Day</a>
           <a href="#landmarks">Landmarks</a>
         </div>
       </nav>
@@ -159,7 +159,7 @@ export default async function Home() {
       {/* ─── TIDES ─── */}
       {tides ? <TideShowcase tides={tides} /> : null}
 
-      {/* ─── 10-DAY FORECAST ─── */}
+      {/* ─── 5-DAY FORECAST ─── */}
       <ForecastStack daily10={weather.daily10} timeZone={weather.meta.timeZone} />
 
       {/* ─── LANDMARKS ─── */}
