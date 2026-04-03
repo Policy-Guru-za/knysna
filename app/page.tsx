@@ -93,9 +93,10 @@ export default async function Home() {
               <span>Knysna, South Africa · {weather.current.localDateLabel}</span>
             </div>
             <h1>
-              <strong><em>Knysna</em></strong>,
-              <br />
-              right now.
+              <span className="hero-headline-line">
+                <strong><em>Knysna</em></strong>,
+              </span>
+              <span className="hero-headline-line hero-headline-follow">right&nbsp;now.</span>
             </h1>
             <p className="hero-sub">
               Live conditions, hourly forecasts, and lagoon tides — updated

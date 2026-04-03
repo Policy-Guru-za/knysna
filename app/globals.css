@@ -168,6 +168,9 @@ button {
   color: white;
   letter-spacing: -0.02em;
   max-width: 6.5ch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12em;
 }
 
 .hero h1 em {
@@ -177,6 +180,14 @@ button {
 
 .hero h1 strong {
   font-weight: 700;
+}
+
+.hero-headline-line {
+  display: block;
+}
+
+.hero-headline-follow {
+  display: block;
 }
 
 .hero-sub {
