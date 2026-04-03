@@ -49,6 +49,79 @@ export function toOneDecimal(value?: number) {
   return Number(value.toFixed(1));
 }
 
+export function formatRainAmountMm(value?: number) {
+  return `${toOneDecimal(value).toFixed(1)} mm`;
+}
+
+export function formatWindSpeedMps(kph?: number) {
+  return `${toOneDecimal((kph || 0) / 3.6).toFixed(1)} m/s`;
+}
+
+export function formatWindDirection(direction?: string) {
+  const labels: Record<string, string> = {
+    NORTH: "N",
+    NORTH_NORTHEAST: "NNE",
+    NORTHEAST: "NE",
+    EAST_NORTHEAST: "ENE",
+    EAST: "E",
+    EAST_SOUTHEAST: "ESE",
+    SOUTHEAST: "SE",
+    SOUTH_SOUTHEAST: "SSE",
+    SOUTH: "S",
+    SOUTH_SOUTHWEST: "SSW",
+    SOUTHWEST: "SW",
+    WEST_SOUTHWEST: "WSW",
+    WEST: "W",
+    WEST_NORTHWEST: "WNW",
+    NORTHWEST: "NW",
+    NORTH_NORTHWEST: "NNW",
+    CALM: "CALM",
+    N: "N",
+    NNE: "NNE",
+    NE: "NE",
+    ENE: "ENE",
+    E: "E",
+    ESE: "ESE",
+    SE: "SE",
+    SSE: "SSE",
+    S: "S",
+    SSW: "SSW",
+    SW: "SW",
+    WSW: "WSW",
+    W: "W",
+    WNW: "WNW",
+    NW: "NW",
+    NNW: "NNW",
+  };
+
+  return labels[direction?.toUpperCase() || ""] ?? "CALM";
+}
+
+export function windDirectionToArrow(direction?: string) {
+  const label = formatWindDirection(direction);
+  const arrows: Record<string, string> = {
+    N: "↑",
+    NNE: "↑",
+    NE: "↗",
+    ENE: "↗",
+    E: "→",
+    ESE: "↘",
+    SE: "↘",
+    SSE: "↓",
+    S: "↓",
+    SSW: "↓",
+    SW: "↙",
+    WSW: "↙",
+    W: "←",
+    WNW: "↖",
+    NW: "↖",
+    NNW: "↑",
+    CALM: "•",
+  };
+
+  return arrows[label] ?? "•";
+}
+
 export function iconBaseUriToUrl(iconBaseUri?: string) {
   if (!iconBaseUri) {
     return "";

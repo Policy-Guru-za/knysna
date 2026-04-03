@@ -1,3 +1,9 @@
+import {
+  formatRainAmountMm,
+  formatWindDirection,
+  formatWindSpeedMps,
+  windDirectionToArrow,
+} from "@/lib/weather/format";
 import type { DerivedNarrative, WeatherPoint } from "@/lib/weather/types";
 
 type HourlyTimelineProps = {
@@ -80,8 +86,32 @@ function WeatherIcon({ conditionType, isDaytime }: { conditionType: string; isDa
   );
 }
 
+function WindBadge({
+  windDirection,
+  windKph,
+}: {
+  windDirection: string;
+  windKph: number;
+}) {
+  const directionLabel = formatWindDirection(windDirection);
+  const speedLabel = formatWindSpeedMps(windKph);
+  const arrow = windDirectionToArrow(windDirection);
+
+  return (
+    <div
+      className="hour-wind"
+      aria-label={`Wind ${speedLabel} ${directionLabel}`}
+    >
+      <span className="hour-wind-arrow" aria-hidden="true">{arrow}</span>
+      <span className="hour-wind-speed">{speedLabel}</span>
+      <span className="hour-wind-dir">{directionLabel}</span>
+    </div>
+  );
+}
+
 export function HourlyTimeline({ hourly24, derived }: HourlyTimelineProps) {
   const sample = hourly24.slice(0, 12);
+  const strongestRainMm = Math.max(...sample.map((point) => point.rainMm), 0);
 
   if (!sample.length) {
     return (
@@ -117,12 +147,23 @@ export function HourlyTimeline({ hourly24, derived }: HourlyTimelineProps) {
                 {point.temperatureC.toFixed(1)}°
               </p>
               <p className="hour-desc">{point.description}</p>
-              <p className="hour-rain">{point.rainChancePercent}% rain</p>
-              <div className="hour-rain-bar">
-                <div
-                  className="hour-rain-fill"
-                  style={{ width: `${point.rainChancePercent}%` }}
+              <div className="hour-footer">
+                <WindBadge
+                  windDirection={point.windDirection}
+                  windKph={point.windKph}
                 />
+                <p className="hour-rain">{formatRainAmountMm(point.rainMm)} rain</p>
+                <div className="hour-rain-bar">
+                  <div
+                    className="hour-rain-fill"
+                    style={{
+                      width:
+                        point.rainMm > 0 && strongestRainMm > 0
+                          ? `${Math.max((point.rainMm / strongestRainMm) * 100, 10)}%`
+                          : "0%",
+                    }}
+                  />
+                </div>
               </div>
             </article>
           ))}

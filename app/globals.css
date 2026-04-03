@@ -369,6 +369,9 @@ button {
 
 .hour-card {
   flex: 0 0 9.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 1.25rem;
@@ -414,13 +417,66 @@ button {
   font-size: 0.78rem;
   color: var(--warm-grey);
   margin-top: 0.35rem;
+  min-height: 2.2em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.hour-footer {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.hour-wind {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+  max-width: 100%;
+  padding: 0.38rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(43, 122, 140, 0.08);
+  border: 1px solid rgba(43, 122, 140, 0.14);
+  color: var(--deep-teal);
+}
+
+.hour-wind-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lagoon-blue);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.hour-wind-speed {
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--deep-teal);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.hour-wind-dir {
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(27, 58, 63, 0.55);
+  white-space: nowrap;
 }
 
 .hour-rain {
   font-size: 0.72rem;
   color: var(--lagoon-blue);
   font-weight: 500;
-  margin-top: 0.65rem;
 }
 
 .hour-rain-bar {
@@ -1190,6 +1246,19 @@ button {
     font-size: 1.65rem;
   }
 
+  .hour-wind {
+    gap: 0.32rem;
+    padding: 0.34rem 0.55rem;
+  }
+
+  .hour-wind-speed {
+    font-size: 0.62rem;
+  }
+
+  .hour-wind-dir {
+    font-size: 0.48rem;
+  }
+
   .tide-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -1402,6 +1471,24 @@ button {
     font-size: 0.65rem;
   }
 
+  .hour-wind {
+    gap: 0.28rem;
+    padding: 0.3rem 0.48rem;
+  }
+
+  .hour-wind-arrow {
+    font-size: 0.74rem;
+  }
+
+  .hour-wind-speed {
+    font-size: 0.58rem;
+  }
+
+  .hour-wind-dir {
+    font-size: 0.44rem;
+    letter-spacing: 0.12em;
+  }
+
   .tide-chart-card {
     padding: 0.85rem 0.85rem 0.65rem;
     border-radius: 1rem;
@@ -1610,6 +1697,24 @@ button {
 
   .hour-desc {
     font-size: 0.65rem;
+  }
+
+  .hour-wind {
+    gap: 0.24rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .hour-wind-arrow {
+    font-size: 0.68rem;
+  }
+
+  .hour-wind-speed {
+    font-size: 0.54rem;
+  }
+
+  .hour-wind-dir {
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
   }
 
   .tide-chart-card {
