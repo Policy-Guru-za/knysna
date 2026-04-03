@@ -955,6 +955,15 @@ button {
     align-items: center;
   }
 
+  .hero-tag {
+    margin-bottom: 1rem;
+    transform: translateY(-2.35rem);
+  }
+
+  .scroll-cta {
+    bottom: 1.1rem;
+  }
+
   .tide-grid {
     gap: 2rem;
   }
@@ -992,6 +1001,15 @@ button {
     grid-template-columns: 1fr 0.85fr;
     gap: 2rem;
     align-items: start;
+  }
+
+  .hero-tag {
+    margin-bottom: 0.85rem;
+    transform: translateY(-2.55rem);
+  }
+
+  .scroll-cta {
+    bottom: 0.9rem;
   }
 
   .hero-temp-value {
@@ -1288,7 +1306,8 @@ button {
   }
 
   .hero-tag {
-    transform: translateY(-1rem);
+    margin-bottom: 0.85rem;
+    transform: translateY(-2.9rem);
   }
 
   .hero h1 {
@@ -1486,7 +1505,8 @@ button {
 
   .hero-tag {
     font-size: 0.58rem;
-    transform: translateY(-0.85rem);
+    margin-bottom: 0.7rem;
+    transform: translateY(-2.45rem);
   }
 
   .hero-sub {
